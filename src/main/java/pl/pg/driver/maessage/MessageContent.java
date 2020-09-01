@@ -27,4 +27,8 @@ public class MessageContent {
     /*---------------- Workout -----------------*/
     public static final String WORKOUT_NOT_FOUND = "No workout found for id ";
     public static final String WORKOUT_DELETED = "Successfully deleted workout on id ";
+
+    /*---------------- Question -----------------*/
+    public static final String QUESTION_NOT_FOUND = "No question found for id ";
+    public static final String QEUSTION_DELETED = "Successfully deleted question on id ";
 }
