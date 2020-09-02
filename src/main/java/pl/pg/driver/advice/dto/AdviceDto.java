@@ -30,7 +30,7 @@ public class AdviceDto {
     @NotNull(message = MessageContent.VALID_NOT_NULL)
     Long number;
 
-    Boolean like;
+    Boolean hasLike;
 
     Boolean isTipOfTheWeek;
 

@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import pl.pg.driver.question.Question;
-
 import javax.persistence.*;
 
 @Data
@@ -24,7 +23,7 @@ public class WorkoutAnswer {
     private Boolean isCorrect;
 
     @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
+    @JoinColumn(name = "question_id")
     private Question question;
 
     public WorkoutAnswer() {

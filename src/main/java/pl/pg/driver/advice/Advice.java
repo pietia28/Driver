@@ -5,9 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import pl.pg.driver.tag.Tag;
 import pl.pg.driver.workout.Workout;
-
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -24,13 +22,13 @@ public class Advice {
     @Column(length = 60, nullable = false, unique = true)
     private String title;
 
-    @Column(columnDefinition = "TEXT", nullable = false)
+    @Column(columnDefinition = "TEXT")
     private String contents;
 
     @Column(nullable = false, unique = true)
     private Long number;
 
-    private Boolean like;
+    private Boolean hasLike;
 
     @Column(name = "is_tip_of_the_week")
     private Boolean isTipOfTheWeek;

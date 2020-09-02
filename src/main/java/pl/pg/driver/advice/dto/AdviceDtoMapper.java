@@ -15,7 +15,7 @@ public class AdviceDtoMapper {
         return AdviceDto.builder()
                 .id(advice.getId())
                 .contents(advice.getContents())
-                .like(advice.getLike())
+                .hasLike(advice.getHasLike())
                 .number(advice.getNumber())
                 .shows(advice.getShows())
                 .isTipOfTheWeek(advice.getIsTipOfTheWeek())
@@ -38,7 +38,7 @@ public class AdviceDtoMapper {
         return Advice.builder()
                 .id(adviceDto.getId())
                 .contents(adviceDto.getContents())
-                .like(adviceDto.getLike())
+                .hasLike(adviceDto.getHasLike())
                 .number(adviceDto.getNumber())
                 .shows(adviceDto.getShows())
                 .isTipOfTheWeek(adviceDto.getIsTipOfTheWeek())
@@ -51,9 +51,9 @@ public class AdviceDtoMapper {
                         .orElse(null)
                 )
                 .tags(adviceDto.getTags().stream()
-                .filter(Objects::nonNull)
-                .map(TagDtoMapper::dtoToEntity)
-                .collect(Collectors.toList()))
+                        .filter(Objects::nonNull)
+                        .map(TagDtoMapper::dtoToEntity)
+                        .collect(Collectors.toList()))
                 .build();
     }
 }

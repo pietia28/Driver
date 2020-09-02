@@ -3,14 +3,13 @@ package pl.pg.driver.workout;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-
 import javax.persistence.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @Entity
-@Table(name = "questions")
+@Table(name = "workouts")
 public class Workout {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
