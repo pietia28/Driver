@@ -30,5 +30,17 @@ public class MessageContent {
 
     /*---------------- Question -----------------*/
     public static final String QUESTION_NOT_FOUND = "No question found for id ";
-    public static final String QEUSTION_DELETED = "Successfully deleted question on id ";
+    public static final String QUESTION_DELETED = "Successfully deleted question on id ";
+
+    /*---------------- Workout Answer -----------------*/
+    public static final String WORKOUT_ANSWER_NOT_FOUND = "No workout_answer found for id ";
+    public static final String WORKOUT_ANSWER_DELETED = "Successfully deleted workout_answer on id ";
+
+    /*---------------- Workout Passed -----------------*/
+    public static final String WORKOUT_PASSED_NOT_FOUND = "No workout_passed found for id ";
+    public static final String WORKOUT_PASSED_DELETED = "Successfully deleted workout_passed on id ";
+
+    /*---------------- Advice -----------------*/
+    public static final String ADVICE_NOT_FOUND = "No advice found for id ";
+    public static final String ADVICE_DELETED = "Successfully deleted advice on id ";
 }

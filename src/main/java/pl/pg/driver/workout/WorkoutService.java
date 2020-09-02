@@ -20,23 +20,23 @@ public class WorkoutService {
     List<WorkoutDto> findFromRange(Integer page) {
         Pageable pageRequest = PageRequest.of(page, 20);
         return workoutRepository.findAll(pageRequest).stream()
-                .map(WorkoutDtoMapper::EntityToDtoShow)
+                .map(WorkoutDtoMapper::entityToDtoShow)
                 .collect(Collectors.toList());
     }
 
     WorkoutDto findById(Long id){
-        return WorkoutDtoMapper.EntityToDtoShow(
+        return WorkoutDtoMapper.entityToDtoShow(
                 workoutRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException(MessageContent.WORKOUT_NOT_FOUND + id))
         );
     }
 
     Workout update(WorkoutDto workoutDto) {
-        return workoutRepository.save(WorkoutDtoMapper.DtoToEntity(workoutDto));
+        return workoutRepository.save(WorkoutDtoMapper.dtoToEntity(workoutDto));
     }
 
     Workout save(WorkoutDto workoutDto) {
-        return workoutRepository.save(WorkoutDtoMapper.DtoToEntity(workoutDto));
+        return workoutRepository.save(WorkoutDtoMapper.dtoToEntity(workoutDto));
     }
 
     void delete(Long id) {

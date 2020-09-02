@@ -1,46 +1,39 @@
-package pl.pg.driver.advice.dto;
+package pl.pg.driver.user.dto;
 
 import lombok.Builder;
 import lombok.Value;
 import pl.pg.driver.maessage.MessageContent;
-import pl.pg.driver.tag.dto.TagDto;
-import pl.pg.driver.workout.dto.WorkoutDto;
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Value
 @Builder
-public class AdviceDto {
+public class UserDto {
     Long id;
 
+    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE)
+    String firstName;
+
+    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE)
+    String lastName;
+
+    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE)
+    String nick;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
     @NotBlank(message = MessageContent.VALID_NOT_BALNK)
     @Size(max = 60, message = MessageContent.VALID_MAX_SIZE)
-    String title;
+    String email;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
     @NotBlank(message = MessageContent.VALID_NOT_BALNK)
-    String contents;
-
-    @NotNull(message = MessageContent.VALID_NOT_NULL)
-    Long number;
-
-    Boolean like;
-
-    Boolean isTipOfTheWeek;
-
-    Long shows;
+    String password;
 
     LocalDateTime created;
 
     LocalDateTime updated;
 
-    WorkoutDto workout;
-
-    List<TagDto> tags;
+    Integer workoutsPoints;
 }

@@ -1,21 +1,23 @@
-package pl.pg.driver.question.dto;
+package pl.pg.driver.workoutAnswer.dto;
 
 import lombok.Builder;
 import lombok.Value;
 import pl.pg.driver.maessage.MessageContent;
-import pl.pg.driver.workout.dto.WorkoutDto;
+import pl.pg.driver.question.dto.QuestionDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Value
 @Builder
-public class QuestionDto {
+public class WorkoutAnswerDto {
     Long id;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
     @NotBlank(message = MessageContent.VALID_NOT_BALNK)
-    String contents;
+    String answer;
 
-    WorkoutDto workout;
+    Boolean isCorrect;
+
+    QuestionDto question;
 }

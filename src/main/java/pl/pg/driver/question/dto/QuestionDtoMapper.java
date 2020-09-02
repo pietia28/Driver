@@ -8,27 +8,25 @@ public class QuestionDtoMapper {
     private QuestionDtoMapper() {
     }
 
-    public static QuestionDto EntityToDtoShow(Question question) {
+    public static QuestionDto entityToDtoShow(Question question) {
         return QuestionDto.builder()
                 .id(question.getId())
                 .contents(question.getContents())
-                .imgPath(question.getImgPath())
                 .workout(
                         Optional.ofNullable(question.getWorkout())
-                        .map(WorkoutDtoMapper::EntityToDtoShow)
+                        .map(WorkoutDtoMapper::entityToDtoShow)
                         .orElse(null)
                 )
                 .build();
     }
 
-    public static Question DtoToEntity(QuestionDto questionDto) {
+    public static Question dtoToEntity(QuestionDto questionDto) {
         return Question.builder()
                 .id(questionDto.getId())
                 .contents(questionDto.getContents())
-                .imgPath(questionDto.getImgPath())
                 .workout(
                         Optional.ofNullable(questionDto.getWorkout())
-                        .map(WorkoutDtoMapper::DtoToEntity)
+                        .map(WorkoutDtoMapper::dtoToEntity)
                         .orElse(null)
                 )
                 .build();

@@ -47,7 +47,7 @@ public class TagController {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .data(TagDtoMapper.EntityToDtoShow(uTag))
+                        .data(TagDtoMapper.entityToDtoShow(uTag))
                         .build());
     }
 

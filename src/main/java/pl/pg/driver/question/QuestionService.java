@@ -19,23 +19,23 @@ public class QuestionService {
     List<QuestionDto> findFromRange(Integer page) {
         Pageable pageRequest = PageRequest.of(page, 20);
         return questionRepository.findAll(pageRequest).stream()
-                .map(QuestionDtoMapper::EntityToDtoShow)
+                .map(QuestionDtoMapper::entityToDtoShow)
                 .collect(Collectors.toList());
     }
 
     QuestionDto findById(Long id){
-        return QuestionDtoMapper.EntityToDtoShow(
+        return QuestionDtoMapper.entityToDtoShow(
                 questionRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException(MessageContent.QUESTION_NOT_FOUND + id))
         );
     }
 
     Question update(QuestionDto questionDto) {
-        return questionRepository.save(QuestionDtoMapper.DtoToEntity(questionDto));
+        return questionRepository.save(QuestionDtoMapper.dtoToEntity(questionDto));
     }
 
     Question save(QuestionDto workoutDto) {
-        return questionRepository.save(QuestionDtoMapper.DtoToEntity(workoutDto));
+        return questionRepository.save(QuestionDtoMapper.dtoToEntity(workoutDto));
     }
 
     void delete(Long id) {

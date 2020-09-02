@@ -1,4 +1,4 @@
-package pl.pg.driver.workout;
+package pl.pg.driver.workoutAnswer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -6,18 +6,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.pg.driver.maessage.MessageContent;
 import pl.pg.driver.response.ResponseDetails;
-import pl.pg.driver.workout.dto.WorkoutDto;
-import pl.pg.driver.workout.dto.WorkoutDtoMapper;
-
+import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDto;
+import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDtoMapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/workouts")
-public class WorkoutController {
-    private final WorkoutService workoutService;
+@RequestMapping("/workouts-answers")
+public class WorkoutAnswerController {
+    private final WorkoutAnswerService workoutAnswerService;
 
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
@@ -25,7 +24,7 @@ public class WorkoutController {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .data(workoutService.findFromRange(page))
+                        .data(workoutAnswerService.findFromRange(page))
                         .pageNumber(page)
                         .nextPage(request.getRequestURL().toString() + MessageContent.PAGE_IN_URL + ++page)
                         .totalPages(totalPages)
@@ -37,43 +36,43 @@ public class WorkoutController {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .data(workoutService.findById(id))
+                        .data(workoutAnswerService.findById(id))
                         .build());
     }
 
     @PutMapping()
-    ResponseEntity<ResponseDetails> update(@Valid @RequestBody WorkoutDto workoutDto) {
-        Workout uWorkout = workoutService.update(workoutDto);
+    ResponseEntity<ResponseDetails> update(@Valid @RequestBody WorkoutAnswerDto workoutAnswerDto) {
+        WorkoutAnswer uWorkoutAnswer = workoutAnswerService.update(workoutAnswerDto);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .data(WorkoutDtoMapper.entityToDtoShow(uWorkout))
+                        .data(WorkoutAnswerDtoMapper.entityToDtoShow(uWorkoutAnswer))
                         .build());
     }
 
 
     @PostMapping()
-    ResponseEntity<Object> save(@Valid @RequestBody WorkoutDto workoutDto) {
-        Workout workout = workoutService.save(workoutDto);
+    ResponseEntity<Object> save(@Valid @RequestBody WorkoutAnswerDto workoutAnswerDto) {
+        WorkoutAnswer workoutAnswer = workoutAnswerService.save(workoutAnswerDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(workout.getId())
+                .buildAndExpand(workoutAnswer.getId())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
     @DeleteMapping("/{id}")
     ResponseEntity<ResponseDetails> delete(@PathVariable Long id) {
-        workoutService.delete(id);
+        workoutAnswerService.delete(id);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .message(MessageContent.WORKOUT_DELETED + id)
+                        .message(MessageContent.WORKOUT_ANSWER_DELETED + id)
                         .build());
     }
 
     @GetMapping("/count")
     Long count() {
-        return workoutService.count();
+        return workoutAnswerService.count();
     }
 }

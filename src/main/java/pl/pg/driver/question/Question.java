@@ -20,9 +20,6 @@ public class Question {
     @Column(nullable = false)
     private String contents;
 
-    @Column(unique = true)
-    private String imgPath;
-
     @ManyToOne
     @JoinColumn(name = "workout_id")
     Workout workout;

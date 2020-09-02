@@ -19,23 +19,23 @@ public class TagService {
     List<TagDto> findFromRange(Integer page) {
         Pageable pageRequest = PageRequest.of(page, 20);
         return tagRepository.findAll(pageRequest).stream()
-                .map(TagDtoMapper::EntityToDtoShow)
+                .map(TagDtoMapper::entityToDtoShow)
                 .collect(Collectors.toList());
     }
 
     TagDto findById(Long id){
-        return TagDtoMapper.EntityToDtoShow(
+        return TagDtoMapper.entityToDtoShow(
                 tagRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException(MessageContent.TAG_NOT_FOUND + id))
         );
     }
 
     Tag update(TagDto tagDto) {
-        return tagRepository.save(TagDtoMapper.DtoToEntity(tagDto));
+        return tagRepository.save(TagDtoMapper.dtoToEntity(tagDto));
     }
 
     Tag save(TagDto tagDto) {
-        return tagRepository.save(TagDtoMapper.DtoToEntity(tagDto));
+        return tagRepository.save(TagDtoMapper.dtoToEntity(tagDto));
     }
 
     void delete(Long id) {

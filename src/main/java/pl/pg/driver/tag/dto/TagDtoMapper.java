@@ -6,14 +6,14 @@ public class TagDtoMapper {
     private TagDtoMapper() {
     }
 
-    public static TagDto EntityToDtoShow(Tag tag) {
+    public static TagDto entityToDtoShow(Tag tag) {
         return TagDto.builder()
                 .id(tag.getId())
                 .label(tag.getContents())
                 .build();
     }
 
-    public static Tag DtoToEntity(TagDto tagDto) {
+    public static Tag dtoToEntity(TagDto tagDto) {
         return Tag.builder()
                 .id(tagDto.getId())
                 .contents(tagDto.getLabel())

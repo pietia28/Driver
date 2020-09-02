@@ -46,7 +46,7 @@ public class QuestionController {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .data(QuestionDtoMapper.EntityToDtoShow(uQuestion))
+                        .data(QuestionDtoMapper.entityToDtoShow(uQuestion))
                         .build());
     }
 
@@ -67,7 +67,7 @@ public class QuestionController {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .message(MessageContent.QEUSTION_DELETED + id)
+                        .message(MessageContent.QUESTION_DELETED + id)
                         .build());
     }
 
