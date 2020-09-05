@@ -1,4 +1,6 @@
 package pl.pg.driver.media;
 
-public class MediaRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface MediaRepository extends JpaRepository<Media, Long> {
 }
