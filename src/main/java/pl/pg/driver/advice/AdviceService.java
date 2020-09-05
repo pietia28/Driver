@@ -1,6 +1,7 @@
 package pl.pg.driver.advice;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import pl.pg.driver.maessage.MessageContent;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class AdviceService {
@@ -41,6 +43,7 @@ public class AdviceService {
     void delete(Long id) {
         Advice question = adviceRepository.findById(id)
                 .orElseThrow((() -> new ObjectNotFoundException(MessageContent.ADVICE_NOT_FOUND + id)));
+        log.info(MessageContent.ADVICE_DELETED + id);
         adviceRepository.deleteById(question.getId());
     }
 

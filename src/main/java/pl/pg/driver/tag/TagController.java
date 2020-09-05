@@ -12,6 +12,8 @@ import pl.pg.driver.tag.dto.TagDtoMapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,7 +23,7 @@ public class TagController {
 
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
-        Long totalPages = (count() / 20);
+        Long totalPages = (tagService.count() / 20);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -53,7 +55,7 @@ public class TagController {
 
 
     @PostMapping()
-    ResponseEntity<Object> save(@Valid @RequestBody TagDto tagDto) {
+    ResponseEntity<ResponseDetails> save(@Valid @RequestBody TagDto tagDto) {
         Tag tag = tagService.save(tagDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -73,7 +75,13 @@ public class TagController {
     }
 
     @GetMapping("/count")
-    Long count() {
-        return tagService.count();
+    ResponseEntity<ResponseDetails> count() {
+        Map<String, Long> dataResponse = new HashMap<>();
+        dataResponse.put(MessageContent.ITEMS, tagService.count());
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .data(dataResponse)
+                        .build());
     }
 }

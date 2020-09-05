@@ -8,6 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MultipartException;
 import pl.pg.driver.maessage.MessageContent;
 import pl.pg.driver.response.ResponseDetails;
 import javax.persistence.EntityNotFoundException;
@@ -32,6 +33,46 @@ public class RestExceptionAdvice {
                 .build());
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.ERROR)
+                        .errors(errorsList)
+                        .build());
+    }
+
+    @ResponseStatus(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+    @ExceptionHandler(BadFileTypeException.class)
+    ResponseEntity<ResponseDetails> handleBadFileTypeException(BadFileTypeException ex, HttpServletRequest req) {
+        log.warn(ex.getMessage());
+
+        List<Object> errorsList = new ArrayList<>();
+        errorsList.add(ResponseErrorDetails.builder()
+                .message(HttpStatus.UNSUPPORTED_MEDIA_TYPE.getReasonPhrase())
+                .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE.value())
+                .description(ex.getMessage())
+                .url(req.getRequestURL().toString())
+                .build());
+
+        return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.ERROR)
+                        .errors(errorsList)
+                        .build());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MultipartException.class)
+    ResponseEntity<ResponseDetails> handleNoMediaException(HttpServletRequest req) {
+        log.warn(MessageContent.MEDIA_NO_FILE);
+
+        List<Object> errorsList = new ArrayList<>();
+        errorsList.add(ResponseErrorDetails.builder()
+                .message(HttpStatus.BAD_REQUEST.getReasonPhrase())
+                .status(HttpStatus.BAD_REQUEST.value())
+                .description(MessageContent.MEDIA_NO_FILE)
+                .url(req.getRequestURL().toString())
+                .build());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ResponseDetails.builder()
                         .status(MessageContent.ERROR)
                         .errors(errorsList)
@@ -86,3 +127,4 @@ public class RestExceptionAdvice {
 
 }
 //TODO poprawic wyswietlanie (formatowanie) handleEntityNotFoundException i handleSQLIntegrityConstraintViolationException
+//TODO Dodać obsługę status": 415, "error": "Unsupported Media Type",

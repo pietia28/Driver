@@ -1,6 +1,7 @@
 package pl.pg.driver.user;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import pl.pg.driver.user.dto.UserDtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class UserService {
@@ -41,6 +43,7 @@ public class UserService {
     void delete(Long id) {
         User question = userRepostory.findById(id)
                 .orElseThrow((() -> new ObjectNotFoundException(MessageContent.USER_NOT_FOUND + id)));
+        log.info(MessageContent.USER_DELETED + id);
         userRepostory.deleteById(question.getId());
     }
 

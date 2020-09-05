@@ -11,6 +11,9 @@ import pl.pg.driver.response.ResponseDetails;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -20,7 +23,7 @@ public class QuestionController {
 
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
-        Long totalPages = (count() / 20);
+        Long totalPages = (questionService.count() / 20);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -40,6 +43,15 @@ public class QuestionController {
                         .build());
     }
 
+    @GetMapping("/workouts/{workoutId}")
+    ResponseEntity<ResponseDetails> findAllByWorkoutId(@PathVariable Long workoutId, HttpServletRequest request) {
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .data(questionService.findAllByWorkoutId(workoutId))
+                        .build());
+    }
+
     @PutMapping()
     ResponseEntity<ResponseDetails> update(@Valid @RequestBody QuestionDto questionDto) {
         Question uQuestion = questionService.update(questionDto);
@@ -52,7 +64,7 @@ public class QuestionController {
 
 
     @PostMapping()
-    ResponseEntity<Object> save(@Valid @RequestBody QuestionDto questionDto) {
+    ResponseEntity<ResponseDetails> save(@Valid @RequestBody QuestionDto questionDto) {
         Question question = questionService.save(questionDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -72,7 +84,13 @@ public class QuestionController {
     }
 
     @GetMapping("/count")
-    Long count() {
-        return questionService.count();
+    ResponseEntity<ResponseDetails> count() {
+        Map<String, Long> dataResponse = new HashMap<>();
+        dataResponse.put(MessageContent.ITEMS, questionService.count());
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .data(dataResponse)
+                        .build());
     }
 }

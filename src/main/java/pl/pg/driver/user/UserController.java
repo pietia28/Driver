@@ -11,6 +11,8 @@ import pl.pg.driver.user.dto.UserDtoMapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -20,7 +22,7 @@ public class UserController {
 
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
-        Long totalPages = (count() / 20);
+        Long totalPages = (userService.count() / 20);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -52,7 +54,7 @@ public class UserController {
 
 
     @PostMapping()
-    ResponseEntity<Object> save(@Valid @RequestBody UserDto userDto) {
+    ResponseEntity<ResponseDetails> save(@Valid @RequestBody UserDto userDto) {
         User user = userService.save(userDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -72,7 +74,13 @@ public class UserController {
     }
 
     @GetMapping("/count")
-    Long count() {
-        return userService.count();
+    ResponseEntity<ResponseDetails> count() {
+        Map<String, Long> dataResponse = new HashMap<>();
+        dataResponse.put(MessageContent.ITEMS, userService.count());
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .data(dataResponse)
+                        .build());
     }
 }

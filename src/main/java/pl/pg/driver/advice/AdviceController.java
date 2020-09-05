@@ -12,6 +12,8 @@ import pl.pg.driver.response.ResponseDetails;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,7 +23,7 @@ public class AdviceController {
 
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
-        Long totalPages = (count() / 20);
+        Long totalPages = (adviceService.count() / 20);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -53,7 +55,7 @@ public class AdviceController {
 
 
     @PostMapping()
-    ResponseEntity<Object> save(@Valid @RequestBody AdviceDto adviceDto) {
+    ResponseEntity<ResponseDetails> save(@Valid @RequestBody AdviceDto adviceDto) {
         Advice advice = adviceService.save(adviceDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -73,7 +75,13 @@ public class AdviceController {
     }
 
     @GetMapping("/count")
-    Long count() {
-        return adviceService.count();
+    ResponseEntity<ResponseDetails> count() {
+        Map<String, Long> dataResponse = new HashMap<>();
+        dataResponse.put(MessageContent.ITEMS, adviceService.count());
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .data(dataResponse)
+                        .build());
     }
 }

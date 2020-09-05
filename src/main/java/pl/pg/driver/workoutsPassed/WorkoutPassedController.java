@@ -12,6 +12,8 @@ import pl.pg.driver.workoutsPassed.dto.WorkoutPassedDtoMapper;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @RestController
@@ -21,7 +23,7 @@ public class WorkoutPassedController {
 
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
-        Long totalPages = (count() / 20);
+        Long totalPages = (workoutPassedService.count() / 20);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -53,7 +55,7 @@ public class WorkoutPassedController {
 
 
     @PostMapping()
-    ResponseEntity<Object> save(@Valid @RequestBody WorkoutPassedDto workoutPassedDto) {
+    ResponseEntity<ResponseDetails> save(@Valid @RequestBody WorkoutPassedDto workoutPassedDto) {
         WorkoutPassed workoutPassed = workoutPassedService.save(workoutPassedDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
@@ -73,7 +75,13 @@ public class WorkoutPassedController {
     }
 
     @GetMapping("/count")
-    Long count() {
-        return workoutPassedService.count();
+    ResponseEntity<ResponseDetails> count() {
+        Map<String, Long> dataResponse = new HashMap<>();
+        dataResponse.put(MessageContent.ITEMS, workoutPassedService.count());
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .data(dataResponse)
+                        .build());
     }
 }

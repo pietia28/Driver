@@ -1,6 +1,7 @@
 package pl.pg.driver.tag;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import pl.pg.driver.tag.dto.TagDtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class TagService {
@@ -41,6 +43,7 @@ public class TagService {
     void delete(Long id) {
         Tag tag = tagRepository.findById(id)
                 .orElseThrow((() -> new ObjectNotFoundException(MessageContent.TAG_NOT_FOUND + id)));
+        log.info(MessageContent.TAG_DELETED + id);
         tagRepository.deleteById(tag.getId());
     }
 

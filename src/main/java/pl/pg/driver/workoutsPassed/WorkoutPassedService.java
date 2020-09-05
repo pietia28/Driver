@@ -1,6 +1,7 @@
 package pl.pg.driver.workoutsPassed;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import pl.pg.driver.workoutsPassed.dto.WorkoutPassedDtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class WorkoutPassedService {
@@ -42,6 +44,7 @@ public class WorkoutPassedService {
     void delete(Long id) {
         WorkoutPassed question = workoutPassedRepository.findById(id)
                 .orElseThrow((() -> new ObjectNotFoundException(MessageContent.WORKOUT_PASSED_NOT_FOUND + id)));
+        log.info(MessageContent.WORKOUT_PASSED_DELETED + id);
         workoutPassedRepository.deleteById(question.getId());
     }
 

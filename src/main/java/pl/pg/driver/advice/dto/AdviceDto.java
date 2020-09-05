@@ -34,6 +34,7 @@ public class AdviceDto {
 
     Boolean isTipOfTheWeek;
 
+    @NotNull(message = MessageContent.VALID_NOT_NULL)
     Long shows;
 
     LocalDateTime created;

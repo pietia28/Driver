@@ -1,6 +1,7 @@
 package pl.pg.driver.question;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import pl.pg.driver.question.dto.QuestionDtoMapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Slf4j
 @RequiredArgsConstructor
 @Service
 public class QuestionService {
@@ -30,17 +32,24 @@ public class QuestionService {
         );
     }
 
+    List<QuestionDto> findAllByWorkoutId(Long workoutId) {
+        return questionRepository.findAllByWorkoutId(workoutId).stream()
+                .map(QuestionDtoMapper::entityToDtoShow)
+                .collect(Collectors.toList());
+    }
+
     Question update(QuestionDto questionDto) {
         return questionRepository.save(QuestionDtoMapper.dtoToEntity(questionDto));
     }
 
-    Question save(QuestionDto workoutDto) {
-        return questionRepository.save(QuestionDtoMapper.dtoToEntity(workoutDto));
+    Question save(QuestionDto questionDto) {
+        return questionRepository.save(QuestionDtoMapper.dtoToEntity(questionDto));
     }
 
     void delete(Long id) {
         Question question = questionRepository.findById(id)
                 .orElseThrow((() -> new ObjectNotFoundException(MessageContent.QUESTION_NOT_FOUND + id)));
+        log.info(MessageContent.QUESTION_DELETED + id);
         questionRepository.deleteById(question.getId());
     }
 

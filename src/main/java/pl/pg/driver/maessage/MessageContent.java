@@ -7,6 +7,7 @@ public class MessageContent {
     public static final String OK = "Ok";
     public static final String ERROR = "Error";
     public static final String PAGE_IN_URL = "?page=";
+    public static final String ITEMS = "Items";
 
     /*--------------Common Validation------------------*/
     public static final String VALID_NOT_NULL = "Cannot be null";
@@ -43,4 +44,11 @@ public class MessageContent {
     /*---------------- Advice -----------------*/
     public static final String ADVICE_NOT_FOUND = "No advice found for id ";
     public static final String ADVICE_DELETED = "Successfully deleted advice on id ";
+
+    /*---------------- Media -----------------*/
+    public static final String MEDIA_NOT_FOUND = "No media found for id ";
+    public static final String MEDIA_DELETED = "Successfully deleted media on id ";
+    public static final String MEDIA_UPLOADED = "File has been successfully uploaded as ";
+    public static final String MEDIA_NO_FILE = "There is no file";
+    public static final String MEDIA_BAD_FILE = "Invalid file type sent";
 }

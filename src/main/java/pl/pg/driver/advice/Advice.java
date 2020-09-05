@@ -25,7 +25,7 @@ public class Advice {
     @Column(columnDefinition = "TEXT")
     private String contents;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long number;
 
     private Boolean hasLike;
@@ -33,6 +33,7 @@ public class Advice {
     @Column(name = "is_tip_of_the_week")
     private Boolean isTipOfTheWeek;
 
+    @Column(nullable = false)
     private Long shows;
 
     private LocalDateTime created;
