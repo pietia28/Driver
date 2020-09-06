@@ -1,13 +1,6 @@
 package pl.pg.driver.user.dto;
 
-import pl.pg.driver.advice.Advice;
-import pl.pg.driver.advice.dto.AdviceDto;
-import pl.pg.driver.tag.dto.TagDtoMapper;
 import pl.pg.driver.user.User;
-import pl.pg.driver.workout.dto.WorkoutDtoMapper;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class UserDtoMapper {
     private UserDtoMapper() {
@@ -32,6 +25,20 @@ public class UserDtoMapper {
                 .lastName(userDto.getLastName())
                 .nick(userDto.getNick())
                 .workoutsPoints(userDto.getWorkoutsPoints())
+                .build();
+    }
+
+    public static User dtoToEntityLogin(UserLoginDto userLoginDto) {
+        return User.builder()
+                .email(userLoginDto.getEmail())
+                .password(userLoginDto.getPassword())
+                .build();
+    }
+
+    public static AuthenticatedUserDto entityToDtoToken(User user) {
+        return AuthenticatedUserDto.builder()
+                .token(user.getToken())
+                .role(user.getRole())
                 .build();
     }
 }

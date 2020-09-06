@@ -20,6 +20,8 @@ public class MessageContent {
     /*---------------- User -----------------*/
     public static final String USER_NOT_FOUND = "No user found for id ";
     public static final String USER_DELETED = "Successfully deleted user on id ";
+    public static final String USER_LOGIN_SUCCES = "Successfully login user with email ";
+    public static final String USER_NO_VALID_CREDENTIAL = "Bad password or login for email ";
 
     /*---------------- Tag -----------------*/
     public static final String TAG_NOT_FOUND = "No tag found for id ";

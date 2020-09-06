@@ -59,6 +59,26 @@ public class RestExceptionAdvice {
                         .build());
     }
 
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(NoValidCredentialException.class)
+    ResponseEntity<ResponseDetails> handleNoValidCredentialException(NoValidCredentialException ex, HttpServletRequest req) {
+        log.warn(ex.getMessage());
+
+        List<Object> errorsList = new ArrayList<>();
+        errorsList.add(ResponseErrorDetails.builder()
+                .message(HttpStatus.UNAUTHORIZED.getReasonPhrase())
+                .status(HttpStatus.UNAUTHORIZED.value())
+                .description(ex.getMessage())
+                .url(req.getRequestURL().toString())
+                .build());
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.ERROR)
+                        .errors(errorsList)
+                        .build());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MultipartException.class)
     ResponseEntity<ResponseDetails> handleNoMediaException(HttpServletRequest req) {

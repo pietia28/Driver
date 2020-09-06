@@ -3,6 +3,7 @@ package pl.pg.driver.user;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import pl.pg.driver.user.role.UserRole;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -38,6 +39,11 @@ public class User {
 
     @Column(name = "workouts_points")
     private Integer workoutsPoints;
+
+    @Column(nullable = false)
+    private String role;
+
+    private String token;
 
     public User() {
         //JPA Only

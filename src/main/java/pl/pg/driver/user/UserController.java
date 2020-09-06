@@ -2,12 +2,15 @@ package pl.pg.driver.user;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.pg.driver.maessage.MessageContent;
 import pl.pg.driver.response.ResponseDetails;
 import pl.pg.driver.user.dto.UserDto;
 import pl.pg.driver.user.dto.UserDtoMapper;
+import pl.pg.driver.user.dto.UserLoginDto;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
@@ -20,6 +23,17 @@ import java.util.Map;
 public class UserController {
     private final UserService userService;
 
+    @PostMapping("/login")
+    ResponseEntity<ResponseDetails> login(@RequestBody UserLoginDto userLoginDto) {
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .message(MessageContent.USER_LOGIN_SUCCES + userLoginDto.getEmail())
+                        .data(userService.login(userLoginDto))
+                        .build());
+    }
+
+    @Secured("ROLE_ADMIN")
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
         Long totalPages = (userService.count() / 20);
