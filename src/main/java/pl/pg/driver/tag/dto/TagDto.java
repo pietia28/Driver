@@ -14,7 +14,7 @@ public class TagDto {
     Long id;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
-    @NotBlank(message = MessageContent.VALID_NOT_BALNK)
+    @NotBlank(message = MessageContent.VALID_NOT_BLANK)
     @Size(max = 30, message = MessageContent.VALID_MAX_SIZE + 30)
     String label;
 }

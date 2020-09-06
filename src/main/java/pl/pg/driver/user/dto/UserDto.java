@@ -23,7 +23,7 @@ public class UserDto {
     String nick;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
-    @NotBlank(message = MessageContent.VALID_NOT_BALNK)
+    @NotBlank(message = MessageContent.VALID_NOT_BLANK)
     @Email(message = MessageContent.VALID_EMAIL)
     @Size(max = 60, message = MessageContent.VALID_MAX_SIZE)
     String email;

@@ -14,7 +14,7 @@ public class WorkoutDto {
     Long id;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
-    @NotBlank(message = MessageContent.VALID_NOT_BALNK)
+    @NotBlank(message = MessageContent.VALID_NOT_BLANK)
     @Size(max = 60, message = MessageContent.VALID_MAX_SIZE + 60)
     String title;
 }

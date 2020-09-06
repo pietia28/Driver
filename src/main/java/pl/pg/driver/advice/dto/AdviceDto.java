@@ -19,12 +19,12 @@ public class AdviceDto {
 
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
-    @NotBlank(message = MessageContent.VALID_NOT_BALNK)
+    @NotBlank(message = MessageContent.VALID_NOT_BLANK)
     @Size(max = 60, message = MessageContent.VALID_MAX_SIZE)
     String title;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
-    @NotBlank(message = MessageContent.VALID_NOT_BALNK)
+    @NotBlank(message = MessageContent.VALID_NOT_BLANK)
     String contents;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)

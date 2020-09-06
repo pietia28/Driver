@@ -11,7 +11,7 @@ public class MessageContent {
 
     /*--------------Common Validation------------------*/
     public static final String VALID_NOT_NULL = "Cannot be null";
-    public static final String VALID_NOT_BALNK = "Cannot be blank";
+    public static final String VALID_NOT_BLANK = "Cannot be blank";
     public static final String VALID_MAX_SIZE = "Size cannot be larger than ";
     public static final String VALID_EMAIL = "Not valid email address";
     public static final String VALID_NIP = "Not valid NIP";
