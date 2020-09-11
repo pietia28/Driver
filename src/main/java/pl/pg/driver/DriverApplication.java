@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.pg.driver.security.JWTAuthorizationFilter;
 import pl.pg.driver.user.User;
@@ -24,14 +25,20 @@ public class DriverApplication {
     }
 
     @Bean
+    public BCryptPasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
     CommandLineRunner uUser(UserRepostory userRepostory) {
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = User.builder()
                 .role("ROLE_ADMIN")
                 .firstName("Piotr")
                 .lastName("Glowacki")
                 .nick("pietia28")
                 .email("pege28@wp.pl")
-                .password("test")
+                .password(passwordEncoder().encode("test"))
                 .build();
 
        User user1 = User.builder()
@@ -40,7 +47,7 @@ public class DriverApplication {
                 .lastName("Nowak")
                 .nick("nowako")
                 .email("adam@wp.pl")
-                .password("test1")
+               .password(passwordEncoder().encode("test"))
                 .build();
        userRepostory.save(user1);
         return args -> userRepostory.save(user);
@@ -59,7 +66,7 @@ public class DriverApplication {
                     .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                     .authorizeRequests()
                     .antMatchers("/users/login").permitAll()
-                    .antMatchers(HttpMethod.POST, "/users").permitAll()
+                    .antMatchers(HttpMethod.POST, "/users/add").permitAll()
                     .anyRequest().authenticated();
         }
     }

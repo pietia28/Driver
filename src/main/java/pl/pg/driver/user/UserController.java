@@ -63,7 +63,7 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<ResponseDetails> findById(HttpServletRequest request, @PathVariable Long id) {
+    ResponseEntity<ResponseDetails> findById(@PathVariable Long id, HttpServletRequest request) {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -71,9 +71,9 @@ public class UserController {
                         .build());
     }
 
-    @PutMapping()
-    ResponseEntity<ResponseDetails> update(@Valid @RequestBody UserDto userDto) {
-        User uUser = userService.update(userDto);
+    @PutMapping("/update")
+    ResponseEntity<ResponseDetails> update(@Valid @RequestBody UserDto userDto, HttpServletRequest request) {
+        User uUser = userService.update(userDto, request);
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -82,7 +82,7 @@ public class UserController {
     }
 
 
-    @PostMapping()
+    @PostMapping("/add")
     ResponseEntity<ResponseDetails> save(@Valid @RequestBody UserCreateDto userCreateDto) {
         User user = userService.save(userCreateDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()

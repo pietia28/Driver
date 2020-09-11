@@ -1,7 +1,9 @@
 package pl.pg.driver.user.dto;
 
 import lombok.Builder;
+import lombok.Data;
 import lombok.Value;
+import lombok.experimental.NonFinal;
 import pl.pg.driver.maessage.MessageContent;
 
 import javax.validation.constraints.Email;
@@ -10,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Value
+@Data
 @Builder
 public class UserCreateDto {
     Long id;
@@ -31,6 +34,6 @@ public class UserCreateDto {
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
     @NotBlank(message = MessageContent.VALID_NOT_BLANK)
+    @NonFinal
     String password;
-
 }

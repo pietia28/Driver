@@ -124,7 +124,7 @@ public class RestExceptionAdvice {
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ResponseDetails> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest req) {
         List<Object> errorsList = new ArrayList<>();
-
+        log.info("TEST ERROR");
         ex.getBindingResult().getFieldErrors().forEach(
                 e -> {
                     errorsList.add(ResponseErrorDetails.builder()

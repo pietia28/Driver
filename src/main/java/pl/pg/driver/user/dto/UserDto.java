@@ -13,13 +13,13 @@ import javax.validation.constraints.Size;
 public class UserDto {
     Long id;
 
-    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE)
+    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE + 30)
     String firstName;
 
-    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE)
+    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE + 30)
     String lastName;
 
-    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE)
+    @Size(max = 30, message = MessageContent.VALID_MAX_SIZE + 30)
     String nick;
 
     @NotNull(message = MessageContent.VALID_NOT_NULL)
@@ -27,6 +27,4 @@ public class UserDto {
     @Email(message = MessageContent.VALID_EMAIL)
     @Size(max = 60, message = MessageContent.VALID_MAX_SIZE)
     String email;
-
-    Integer workoutsPoints;
 }

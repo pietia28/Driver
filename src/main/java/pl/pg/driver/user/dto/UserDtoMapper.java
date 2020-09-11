@@ -14,7 +14,6 @@ public class UserDtoMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .nick(user.getNick())
-                .workoutsPoints(user.getWorkoutsPoints())
                 .build();
     }
 
@@ -25,7 +24,6 @@ public class UserDtoMapper {
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
                 .nick(userDto.getNick())
-                .workoutsPoints(userDto.getWorkoutsPoints())
                 .build();
     }
 

@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import pl.pg.driver.exception.NoValidCredentialException;
 import pl.pg.driver.exception.ObjectNotFoundException;
@@ -30,6 +31,7 @@ import java.util.stream.Collectors;
 public class UserService {
     private final UserRepostory userRepostory;
     private final TokenBlackListRepository tokenBlackListRepository;
+    private final BCryptPasswordEncoder passwordEncoder;
     private static final String HEADER = "Authorization";
     private static final String PREFIX = "Bearer ";
     private static final String SECRET = "mySecretKey";
@@ -70,11 +72,27 @@ public class UserService {
         return UserDtoMapper.entityToDtoShow(user);
     }
 
-    User update(UserDto userDto) {
-        return userRepostory.save(UserDtoMapper.dtoToEntity(userDto));
+    User update(UserDto userDto, HttpServletRequest request) {
+        Claims claims = getJWTClaimsFromHttpRequest(request);
+        List<String> authorities = (List) claims.get("authorities");
+        if (!claims.getSubject().equals(String.valueOf(userDto.getId())) && authorities.get(0).equals(UserRole.ROLE_USER.toString())) {
+            throw new UserAccessForbiddenException(MessageContent.USER_ACCESS_FORBIDDEN);
+        }
+
+        User user = userRepostory.findById(userDto.getId())
+                .orElseThrow(() -> new ObjectNotFoundException(MessageContent.USER_NOT_FOUND + userDto.getId()));
+        String password = user.getPassword();
+        String role = user.getRole();
+
+        user = UserDtoMapper.dtoToEntity(userDto);
+        user.setPassword(password);
+        user.setRole(role);
+
+        return userRepostory.save(user);
     }
 
     User save(UserCreateDto userCreateDto) {
+        userCreateDto.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
         return userRepostory.save(UserDtoMapper.dtoToEntityCreate(userCreateDto));
     }
 
@@ -91,7 +109,7 @@ public class UserService {
 
     private User checkCredentials(String email, String password) {
         return userRepostory.findByEmail(email)
-                .filter(u -> u.getPassword().equals(password))
+                .filter(u -> passwordEncoder.matches(password, u.getPassword()))
                 .orElseThrow(() -> new NoValidCredentialException(MessageContent.USER_NO_VALID_CREDENTIAL + email));
     }
 
