@@ -48,7 +48,7 @@ public class WorkoutPassedService {
         workoutPassedRepository.deleteById(question.getId());
     }
 
-    public Long count() {
+    Long count() {
         return workoutPassedRepository.count();
     }
 }

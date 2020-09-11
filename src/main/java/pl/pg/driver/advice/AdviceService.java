@@ -47,7 +47,7 @@ public class AdviceService {
         adviceRepository.deleteById(question.getId());
     }
 
-    public Long count() {
+    Long count() {
         return adviceRepository.count();
     }
 }

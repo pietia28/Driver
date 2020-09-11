@@ -47,7 +47,7 @@ public class WorkoutAnswerService {
         workoutAnswerRepository.deleteById(workout.getId());
     }
 
-    public Long count() {
+    Long count() {
         return workoutAnswerRepository.count();
     }
 }

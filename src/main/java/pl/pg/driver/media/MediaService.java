@@ -48,7 +48,7 @@ public class MediaService {
         mediaRepository.deleteById(media.getId());
     }
 
-    public Long count() {
+    Long count() {
         return mediaRepository.count();
     }
 }

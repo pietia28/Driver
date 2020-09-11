@@ -53,7 +53,7 @@ public class QuestionService {
         questionRepository.deleteById(question.getId());
     }
 
-    public Long count() {
+    Long count() {
         return questionRepository.count();
     }
 }

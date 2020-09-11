@@ -48,7 +48,7 @@ public class WorkoutService {
         workoutRepository.deleteById(workout.getId());
     }
 
-    public Long count() {
+    Long count() {
         return workoutRepository.count();
     }
 }
