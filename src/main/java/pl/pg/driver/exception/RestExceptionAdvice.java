@@ -79,6 +79,26 @@ public class RestExceptionAdvice {
                         .build());
     }
 
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    @ExceptionHandler(UserAccessForbiddenException.class)
+    ResponseEntity<ResponseDetails> handleUserAccessForbiddenException(UserAccessForbiddenException ex, HttpServletRequest req) {
+        log.warn(ex.getMessage());
+
+        List<Object> errorsList = new ArrayList<>();
+        errorsList.add(ResponseErrorDetails.builder()
+                .message(HttpStatus.FORBIDDEN.getReasonPhrase())
+                .status(HttpStatus.FORBIDDEN.value())
+                .description(ex.getMessage())
+                .url(req.getRequestURL().toString())
+                .build());
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.ERROR)
+                        .errors(errorsList)
+                        .build());
+    }
+
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MultipartException.class)
     ResponseEntity<ResponseDetails> handleNoMediaException(HttpServletRequest req) {
@@ -98,6 +118,7 @@ public class RestExceptionAdvice {
                         .errors(errorsList)
                         .build());
     }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)

@@ -5,7 +5,7 @@ import lombok.Value;
 
 @Value
 @Builder
-public class AuthenticatedUserDto {
+public class UserAuthenticateDto {
     String token;
     String role;
 }

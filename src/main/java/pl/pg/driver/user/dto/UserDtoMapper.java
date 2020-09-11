@@ -1,6 +1,7 @@
 package pl.pg.driver.user.dto;
 
 import pl.pg.driver.user.User;
+import pl.pg.driver.user.role.UserRole;
 
 public class UserDtoMapper {
     private UserDtoMapper() {
@@ -35,10 +36,21 @@ public class UserDtoMapper {
                 .build();
     }
 
-    public static AuthenticatedUserDto entityToDtoToken(User user) {
-        return AuthenticatedUserDto.builder()
+    public static UserAuthenticateDto entityToDtoToken(User user) {
+        return UserAuthenticateDto.builder()
                 .token(user.getToken())
                 .role(user.getRole())
+                .build();
+    }
+
+    public static User dtoToEntityCreate (UserCreateDto userCreateDto) {
+        return User.builder()
+                .password(userCreateDto.getPassword())
+                .email(userCreateDto.getEmail())
+                .nick(userCreateDto.getNick())
+                .lastName(userCreateDto.getLastName())
+                .firstName(userCreateDto.getFirstName())
+                .role(UserRole.ROLE_USER.toString())
                 .build();
     }
 }

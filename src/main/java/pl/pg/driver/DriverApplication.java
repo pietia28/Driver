@@ -1,5 +1,6 @@
 package pl.pg.driver;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -11,9 +12,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 import pl.pg.driver.security.JWTAuthorizationFilter;
 import pl.pg.driver.user.User;
 import pl.pg.driver.user.UserRepostory;
@@ -48,18 +46,20 @@ public class DriverApplication {
         return args -> userRepostory.save(user);
     }
 
+    @RequiredArgsConstructor
     @EnableWebSecurity
     @Configuration
     @EnableGlobalMethodSecurity(securedEnabled = true)
     class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+        private final JWTAuthorizationFilter jwtAuthorizationFilter;
 
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.csrf().disable()
-                    .addFilterAfter(new JWTAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterAfter(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
                     .authorizeRequests()
                     .antMatchers("/users/login").permitAll()
-                    //.antMatchers(HttpMethod.GET, "/users").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST, "/users").permitAll()
                     .anyRequest().authenticated();
         }
     }
