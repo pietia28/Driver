@@ -92,16 +92,6 @@ public class UserController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{id}")
-    ResponseEntity<ResponseDetails> delete(@PathVariable Long id) {
-        userService.delete(id);
-        return ResponseEntity.ok()
-                .body(ResponseDetails.builder()
-                        .status(MessageContent.OK)
-                        .message(MessageContent.USER_DELETED + id)
-                        .build());
-    }
-
     @GetMapping("/count")
     ResponseEntity<ResponseDetails> count() {
         Map<String, Long> dataResponse = new HashMap<>();

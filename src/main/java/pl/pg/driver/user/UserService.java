@@ -96,13 +96,6 @@ public class UserService {
         return userRepostory.save(UserDtoMapper.dtoToEntityCreate(userCreateDto));
     }
 
-    void delete(Long id) {
-        User question = userRepostory.findById(id)
-                .orElseThrow((() -> new ObjectNotFoundException(MessageContent.USER_NOT_FOUND + id)));
-        log.info(MessageContent.USER_DELETED + id);
-        userRepostory.deleteById(question.getId());
-    }
-
     Long count() {
         return userRepostory.count();
     }
