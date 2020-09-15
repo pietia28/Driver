@@ -98,12 +98,12 @@ public class WorkoutAnswerController {
                         .build());
     }
 
-    @PutMapping("/answers")
-    ResponseEntity<ResponseDetails> answers(WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
+    @PostMapping("/answers")
+    ResponseEntity<ResponseDetails> answers(@RequestBody WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .data((workoutAnswerService.answers(workoutAnswerHandlerDto)
+                        .message((workoutAnswerService.answers(workoutAnswerHandlerDto)
                                 ? MessageContent.EXAM_PASSED : MessageContent.EXAM_NOT_PASSED))
                 .build());
     }

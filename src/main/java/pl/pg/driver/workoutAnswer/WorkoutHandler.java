@@ -1,6 +1,5 @@
 package pl.pg.driver.workoutAnswer;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerHandlerDto;
 
@@ -11,13 +10,13 @@ public class WorkoutHandler {
 
     boolean checkExam(WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
        long result = workoutAnswerHandlerDto.getWorkoutAnswerList().stream()
-               .filter(w -> checkAnswer(w.getQuestionId()))
+               .filter(w -> checkAnswer(w.getQuestionId(), w.getAnswerId()))
                .count();
-        return 100L * result / workoutAnswerHandlerDto.getWorkoutAnswerList().size() < 60;
+        return 100L * result / workoutAnswerHandlerDto.getWorkoutAnswerList().size() > 60;
     }
 
-    private boolean checkAnswer(Long questionId) {
-        return workoutAnswerRepository.findWorkoutAnswerByQuestionId(questionId)
+    private boolean checkAnswer(Long questionId, Long answerId) {
+        return workoutAnswerRepository.findWorkoutAnswerByQuestionIdAAndAnswerId(questionId, answerId)
                 .map(WorkoutAnswer::getIsCorrect)
                 .orElseThrow();
     }
