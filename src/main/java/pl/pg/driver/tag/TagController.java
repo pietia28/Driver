@@ -2,6 +2,7 @@ package pl.pg.driver.tag;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.pg.driver.maessage.MessageContent;
@@ -43,7 +44,8 @@ public class TagController {
                         .build());
     }
 
-    @PutMapping()
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/update")
     ResponseEntity<ResponseDetails> update(@Valid @RequestBody TagDto tagDto) {
         Tag uTag = tagService.update(tagDto);
         return ResponseEntity.ok()
@@ -53,8 +55,8 @@ public class TagController {
                         .build());
     }
 
-
-    @PostMapping()
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/add")
     ResponseEntity<ResponseDetails> save(@Valid @RequestBody TagDto tagDto) {
         Tag tag = tagService.save(tagDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -64,7 +66,7 @@ public class TagController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     ResponseEntity<ResponseDetails> delete(@PathVariable Long id) {
         tagService.delete(id);
         return ResponseEntity.ok()
@@ -85,3 +87,5 @@ public class TagController {
                         .build());
     }
 }
+//TODO w metodach save rzucac bledy o pustym jsonie na wejsciu
+//TODO metody count zrobic dostepne dla wszystkich

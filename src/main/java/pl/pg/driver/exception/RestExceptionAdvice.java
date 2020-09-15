@@ -119,12 +119,31 @@ public class RestExceptionAdvice {
                         .build());
     }
 
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoTipOfTheWeekendException.class)
+    ResponseEntity<ResponseDetails> handleNoTipOfTheWeekendException(HttpServletRequest req) {
+        log.warn(MessageContent.TIP_NOT_FOUND);
+
+        List<Object> errorsList = new ArrayList<>();
+        errorsList.add(ResponseErrorDetails.builder()
+                .message(HttpStatus.NOT_FOUND.getReasonPhrase())
+                .status(HttpStatus.NOT_FOUND.value())
+                .description(MessageContent.TIP_NOT_FOUND)
+                .url(req.getRequestURL().toString())
+                .build());
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.ERROR)
+                        .errors(errorsList)
+                        .build());
+    }
+
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(MethodArgumentNotValidException.class)
     ResponseEntity<ResponseDetails> handleValidationExceptions(MethodArgumentNotValidException ex, HttpServletRequest req) {
         List<Object> errorsList = new ArrayList<>();
-        log.info("TEST ERROR");
         ex.getBindingResult().getFieldErrors().forEach(
                 e -> {
                     errorsList.add(ResponseErrorDetails.builder()
@@ -136,7 +155,6 @@ public class RestExceptionAdvice {
                     log.warn(MessageContent.VALID_FIELD_VALID + e.getField() + ". " + e.getDefaultMessage());
                 }
         );
-
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(ResponseDetails.builder()

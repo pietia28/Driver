@@ -3,6 +3,7 @@ package pl.pg.driver.advice;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import pl.pg.driver.media.Media;
 import pl.pg.driver.tag.Tag;
 import pl.pg.driver.workout.Workout;
 import javax.persistence.*;
@@ -28,13 +29,13 @@ public class Advice {
     @Column(nullable = false)
     private Long number;
 
-    private Boolean hasLike;
+    private Long likes = 0L;
 
     @Column(name = "is_tip_of_the_week")
-    private Boolean isTipOfTheWeek;
+    private Byte tipOfTheWeek = 0;
 
     @Column(nullable = false)
-    private Long shows;
+    private Long shows = 0L;
 
     private LocalDateTime created;
 
@@ -43,6 +44,10 @@ public class Advice {
     @ManyToOne
     @JoinColumn(name = "workout_id")
     private Workout workout;
+
+    @ManyToOne
+    @JoinColumn(name = "media_id")
+    private Media media;
 
     @ManyToMany
     private List<Tag> tags;

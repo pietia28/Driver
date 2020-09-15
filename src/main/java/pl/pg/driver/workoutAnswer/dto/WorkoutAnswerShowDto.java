@@ -11,12 +11,10 @@ import javax.validation.constraints.NotNull;
 
 @Value
 @Builder
-public class WorkoutAnswerDto {
+public class WorkoutAnswerShowDto {
     Long id;
 
-    @NotNull(message = MessageContent.VALID_NOT_NULL)
-    @NotBlank(message = MessageContent.VALID_NOT_BLANK)
     String answer;
 
-    QuestionDto question;
+    QuestionDtoNoWorkouts question;
 }

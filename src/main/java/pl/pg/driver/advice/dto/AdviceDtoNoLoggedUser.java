@@ -4,12 +4,11 @@ import lombok.Builder;
 import lombok.Value;
 import pl.pg.driver.media.Media;
 import pl.pg.driver.tag.dto.TagDto;
-import pl.pg.driver.workout.dto.WorkoutDto;
 import java.util.List;
 
 @Value
 @Builder
-public class AdviceDto {
+public class AdviceDtoNoLoggedUser {
     Long id;
 
     String title;
@@ -21,8 +20,6 @@ public class AdviceDto {
     Long likes;
 
     Long shows;
-
-    WorkoutDto workout;
 
     List<TagDto> tags;
 

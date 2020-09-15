@@ -30,3 +30,4 @@ public class Media {
         //JPA Only
     }
 }
+//TODO dodac dtomapper z id

@@ -2,6 +2,7 @@ package pl.pg.driver.question;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.pg.driver.maessage.MessageContent;
@@ -43,7 +44,7 @@ public class QuestionController {
                         .build());
     }
 
-    @GetMapping("/workouts/{workoutId}")
+    @GetMapping("/workout/{workoutId}")
     ResponseEntity<ResponseDetails> findAllByWorkoutId(@PathVariable Long workoutId, HttpServletRequest request) {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
@@ -52,7 +53,8 @@ public class QuestionController {
                         .build());
     }
 
-    @PutMapping()
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/update")
     ResponseEntity<ResponseDetails> update(@Valid @RequestBody QuestionDto questionDto) {
         Question uQuestion = questionService.update(questionDto);
         return ResponseEntity.ok()
@@ -62,8 +64,8 @@ public class QuestionController {
                         .build());
     }
 
-
-    @PostMapping()
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/add")
     ResponseEntity<ResponseDetails> save(@Valid @RequestBody QuestionDto questionDto) {
         Question question = questionService.save(questionDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -73,7 +75,8 @@ public class QuestionController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/delete/{id}")
     ResponseEntity<ResponseDetails> delete(@PathVariable Long id) {
         questionService.delete(id);
         return ResponseEntity.ok()
@@ -94,3 +97,4 @@ public class QuestionController {
                         .build());
     }
 }
+//TODO dodać obrazki do pytan i odpowiedzi

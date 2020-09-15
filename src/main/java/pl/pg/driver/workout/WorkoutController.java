@@ -2,6 +2,7 @@ package pl.pg.driver.workout;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.pg.driver.maessage.MessageContent;
@@ -21,6 +22,7 @@ import java.util.Map;
 public class WorkoutController {
     private final WorkoutService workoutService;
 
+    @Secured("ROLE_ADMIN")
     @GetMapping()
     ResponseEntity<ResponseDetails> findFromRange(@RequestParam Integer page, HttpServletRequest request) {
         Long totalPages = (workoutService.count() / 20);
@@ -34,6 +36,7 @@ public class WorkoutController {
                         .build());
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     ResponseEntity<ResponseDetails> findById(@PathVariable Long id) {
         return ResponseEntity.ok()
@@ -43,7 +46,8 @@ public class WorkoutController {
                         .build());
     }
 
-    @PutMapping()
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/update")
     ResponseEntity<ResponseDetails> update(@Valid @RequestBody WorkoutDto workoutDto) {
         Workout uWorkout = workoutService.update(workoutDto);
         return ResponseEntity.ok()
@@ -53,8 +57,8 @@ public class WorkoutController {
                         .build());
     }
 
-
-    @PostMapping()
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/add")
     ResponseEntity<ResponseDetails> save(@Valid @RequestBody WorkoutDto workoutDto) {
         Workout workout = workoutService.save(workoutDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -64,7 +68,8 @@ public class WorkoutController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/delete/{id}")
     ResponseEntity<ResponseDetails> delete(@PathVariable Long id) {
         workoutService.delete(id);
         return ResponseEntity.ok()
@@ -85,3 +90,4 @@ public class WorkoutController {
                         .build());
     }
 }
+//TODO w obiektach powiazanych pobierac tylko id - zmienic dtomappery

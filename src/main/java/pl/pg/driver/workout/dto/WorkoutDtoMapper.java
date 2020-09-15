@@ -17,6 +17,7 @@ public class WorkoutDtoMapper {
         return Workout.builder()
                 .id(workoutDto.getId())
                 .title(workoutDto.getTitle())
+                .score(workoutDto.getScore())
                 .build();
     }
 }

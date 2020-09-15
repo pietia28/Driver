@@ -55,4 +55,15 @@ public class MessageContent {
     public static final String MEDIA_UPLOADED = "File has been successfully uploaded as ";
     public static final String MEDIA_NO_FILE = "There is no file";
     public static final String MEDIA_BAD_FILE = "Invalid file type sent";
+
+    /*---------------- Likes -----------------*/
+    public static final String LIKE_ADD = "Successfully add like to advice with id ";
+    public static final String LIKE_REMOVE = "Successfully remove like from advice with id ";
+
+    /*---------------- TipOfTheWeek -----------------*/
+    public static final String TIP_NOT_FOUND = "No Tip Of The Week found";
+
+    /*---------------- Exam --------------------------*/
+    public static final String EXAM_PASSED = "Exam passed";
+    public static final String EXAM_NOT_PASSED = "Exam not passed";
 }

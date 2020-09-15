@@ -7,8 +7,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import pl.pg.driver.exception.ObjectNotFoundException;
 import pl.pg.driver.maessage.MessageContent;
-import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDto;
+import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerHandlerDto;
+import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerShowDto;
 import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDtoMapper;
+import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDto;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,19 +20,26 @@ import java.util.stream.Collectors;
 @Service
 public class WorkoutAnswerService {
     private final WorkoutAnswerRepository workoutAnswerRepository;
+    private final WorkoutHandler workoutHandler;
 
-    List<WorkoutAnswerDto> findFromRange(Integer page) {
+    List<WorkoutAnswerShowDto> findFromRange(Integer page) {
         Pageable pageRequest = PageRequest.of(page, 20);
         return workoutAnswerRepository.findAll(pageRequest).stream()
                 .map(WorkoutAnswerDtoMapper::entityToDtoShow)
                 .collect(Collectors.toList());
     }
 
-    WorkoutAnswerDto findById(Long id){
+    WorkoutAnswerShowDto findById(Long id){
         return WorkoutAnswerDtoMapper.entityToDtoShow(
                 workoutAnswerRepository.findById(id)
                         .orElseThrow(() -> new ObjectNotFoundException(MessageContent.WORKOUT_ANSWER_NOT_FOUND + id))
         );
+    }
+
+    List<WorkoutAnswerShowDto> findAllByQuestionId(Long id) {
+        return workoutAnswerRepository.findWorkoutAnswersByQuestionId(id).stream()
+                .map(WorkoutAnswerDtoMapper::entityToDtoShow)
+                .collect(Collectors.toList());
     }
 
     WorkoutAnswer update(WorkoutAnswerDto workoutAnswerDto) {
@@ -49,5 +59,9 @@ public class WorkoutAnswerService {
 
     Long count() {
         return workoutAnswerRepository.count();
+    }
+
+    boolean answers(WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
+        return workoutHandler.checkExam(workoutAnswerHandlerDto);
     }
 }

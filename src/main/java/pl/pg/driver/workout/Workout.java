@@ -18,6 +18,9 @@ public class Workout {
     @Column(unique = true, length = 60)
     private String title;
 
+    @Column(nullable = false)
+    private Integer score = 0;
+
     public Workout() {
         //JPA Only
     }

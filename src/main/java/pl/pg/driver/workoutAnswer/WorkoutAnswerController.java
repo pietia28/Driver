@@ -2,12 +2,15 @@ package pl.pg.driver.workoutAnswer;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import pl.pg.driver.maessage.MessageContent;
 import pl.pg.driver.response.ResponseDetails;
-import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDto;
 import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDtoMapper;
+import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDto;
+import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerHandlerDto;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.net.URI;
@@ -42,7 +45,17 @@ public class WorkoutAnswerController {
                         .build());
     }
 
-    @PutMapping()
+    @GetMapping("/question/{id}")
+    ResponseEntity<ResponseDetails> findAllByQuestionId(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                .status(MessageContent.OK)
+                .data(workoutAnswerService.findAllByQuestionId(id))
+                .build());
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PutMapping("/update")
     ResponseEntity<ResponseDetails> update(@Valid @RequestBody WorkoutAnswerDto workoutAnswerDto) {
         WorkoutAnswer uWorkoutAnswer = workoutAnswerService.update(workoutAnswerDto);
         return ResponseEntity.ok()
@@ -52,8 +65,8 @@ public class WorkoutAnswerController {
                         .build());
     }
 
-
-    @PostMapping()
+    @Secured("ROLE_ADMIN")
+    @PostMapping("/add")
     ResponseEntity<ResponseDetails> save(@Valid @RequestBody WorkoutAnswerDto workoutAnswerDto) {
         WorkoutAnswer workoutAnswer = workoutAnswerService.save(workoutAnswerDto);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
@@ -63,7 +76,8 @@ public class WorkoutAnswerController {
         return ResponseEntity.created(location).build();
     }
 
-    @DeleteMapping("/{id}")
+    @Secured("ROLE_ADMIN")
+    @DeleteMapping("/delete/{id}")
     ResponseEntity<ResponseDetails> delete(@PathVariable Long id) {
         workoutAnswerService.delete(id);
         return ResponseEntity.ok()
@@ -82,5 +96,15 @@ public class WorkoutAnswerController {
                         .status(MessageContent.OK)
                         .data(dataResponse)
                         .build());
+    }
+
+    @PutMapping("/answers")
+    ResponseEntity<ResponseDetails> answers(WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
+        return ResponseEntity.ok()
+                .body(ResponseDetails.builder()
+                        .status(MessageContent.OK)
+                        .data((workoutAnswerService.answers(workoutAnswerHandlerDto)
+                                ? MessageContent.EXAM_PASSED : MessageContent.EXAM_NOT_PASSED))
+                .build());
     }
 }

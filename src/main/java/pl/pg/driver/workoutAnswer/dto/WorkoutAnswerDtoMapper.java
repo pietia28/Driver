@@ -9,14 +9,13 @@ public class WorkoutAnswerDtoMapper {
     private WorkoutAnswerDtoMapper() {
     }
 
-    public static WorkoutAnswerDto entityToDtoShow(WorkoutAnswer workoutAnswer) {
-        return WorkoutAnswerDto.builder()
+    public static WorkoutAnswerShowDto entityToDtoShow(WorkoutAnswer workoutAnswer) {
+        return WorkoutAnswerShowDto.builder()
                 .id(workoutAnswer.getId())
                 .answer(workoutAnswer.getAnswer())
-                .isCorrect(workoutAnswer.getIsCorrect())
                 .question(
                         Optional.ofNullable(workoutAnswer.getQuestion())
-                        .map(QuestionDtoMapper::entityToDtoShow)
+                        .map(QuestionDtoMapper::entityToDtoNoWorkoutShow)
                         .orElse(null)
                 )
                 .build();
@@ -26,7 +25,6 @@ public class WorkoutAnswerDtoMapper {
         return WorkoutAnswer.builder()
                 .id(workoutAnswerDto.getId())
                 .answer(workoutAnswerDto.getAnswer())
-                .isCorrect(workoutAnswerDto.getIsCorrect())
                 .question(
                         Optional.ofNullable(workoutAnswerDto.getQuestion())
                         .map(QuestionDtoMapper::dtoToEntity)

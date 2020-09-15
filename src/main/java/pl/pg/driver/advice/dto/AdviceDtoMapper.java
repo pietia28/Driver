@@ -15,13 +15,14 @@ public class AdviceDtoMapper {
         return AdviceDto.builder()
                 .id(advice.getId())
                 .contents(advice.getContents())
-                .hasLike(advice.getHasLike())
+                .likes(advice.getLikes())
                 .number(advice.getNumber())
                 .shows(advice.getShows())
-                .isTipOfTheWeek(advice.getIsTipOfTheWeek())
                 .title(advice.getTitle())
-                .created(advice.getCreated())
-                .updated(advice.getUpdated())
+                .media(
+                        Optional.ofNullable(advice.getMedia())
+                        .orElse(null)
+                )
                 .workout(
                         Optional.ofNullable(advice.getWorkout())
                         .map(WorkoutDtoMapper::entityToDtoShow)
@@ -34,23 +35,79 @@ public class AdviceDtoMapper {
                 .build();
     }
 
+    public static AdviceDtoNoLoggedUser entityToDtoNoLoggedUserShow(Advice advice) {
+        return AdviceDtoNoLoggedUser.builder()
+                .id(advice.getId())
+                .contents(advice.getContents())
+                .likes(advice.getLikes())
+                .number(advice.getNumber())
+                .shows(advice.getShows())
+                .title(advice.getTitle())
+                .tags(advice.getTags().stream()
+                        .filter(Objects::nonNull)
+                        .map(TagDtoMapper::entityToDtoShow)
+                        .collect(Collectors.toList()))
+                .media(
+                        Optional.ofNullable(advice.getMedia())
+                        .orElse(null)
+                )
+                .build();
+    }
+
     public static Advice dtoToEntity(AdviceDto adviceDto) {
         return Advice.builder()
                 .id(adviceDto.getId())
                 .contents(adviceDto.getContents())
-                .hasLike(adviceDto.getHasLike())
-                .number(adviceDto.getNumber())
+                .likes(adviceDto.getLikes())
                 .shows(adviceDto.getShows())
-                .isTipOfTheWeek(adviceDto.getIsTipOfTheWeek())
                 .title(adviceDto.getTitle())
-                .created(adviceDto.getCreated())
-                .updated(adviceDto.getUpdated())
                 .workout(
                         Optional.ofNullable(adviceDto.getWorkout())
                         .map(WorkoutDtoMapper::dtoToEntity)
                         .orElse(null)
                 )
                 .tags(adviceDto.getTags().stream()
+                        .filter(Objects::nonNull)
+                        .map(TagDtoMapper::dtoToEntity)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    public static Advice dtoToEntityCreate(AdviceDtoCreate adviceDtoCreate) {
+        return Advice.builder()
+                .contents(adviceDtoCreate.getContents())
+                .title(adviceDtoCreate.getTitle())
+                .workout(
+                        Optional.ofNullable(adviceDtoCreate.getWorkout())
+                                .map(WorkoutDtoMapper::dtoToEntity)
+                                .orElse(null)
+                )
+                .media(
+                        Optional.ofNullable(adviceDtoCreate.getMedia())
+                        .orElse(null)
+                )
+                .tags(adviceDtoCreate.getTags().stream()
+                        .filter(Objects::nonNull)
+                        .map(TagDtoMapper::dtoToEntity)
+                        .collect(Collectors.toList()))
+                .build();
+    }
+
+    public static Advice dtoToEntityUpdate(AdviceDtoUpdate adviceDtoUpdate) {
+        return Advice.builder()
+                .id(adviceDtoUpdate.getId())
+                .contents(adviceDtoUpdate.getContents())
+                .title(adviceDtoUpdate.getTitle())
+                .workout(
+                        Optional.ofNullable(adviceDtoUpdate.getWorkout())
+                                .map(WorkoutDtoMapper::dtoToEntity)
+                                .orElse(null)
+                )
+                .media(
+                        Optional.ofNullable(adviceDtoUpdate.getMedia())
+                        .orElse(null)
+                )
+                .tags(adviceDtoUpdate.getTags().stream()
                         .filter(Objects::nonNull)
                         .map(TagDtoMapper::dtoToEntity)
                         .collect(Collectors.toList()))

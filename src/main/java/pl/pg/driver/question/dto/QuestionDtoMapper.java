@@ -20,6 +20,13 @@ public class QuestionDtoMapper {
                 .build();
     }
 
+    public static QuestionDtoNoWorkouts entityToDtoNoWorkoutShow(Question question) {
+        return QuestionDtoNoWorkouts.builder()
+                .id(question.getId())
+                .contents(question.getContents())
+                .build();
+    }
+
     public static Question dtoToEntity(QuestionDto questionDto) {
         return Question.builder()
                 .id(questionDto.getId())

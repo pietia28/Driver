@@ -2,6 +2,7 @@ package pl.pg.driver.media;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
@@ -24,6 +25,7 @@ import pl.pg.driver.response.ResponseDetails;
 public class MediaController {
     private final MediaService mediaService;
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/{id}")
     ResponseEntity<ResponseDetails> findById(@PathVariable Long id) {
         return ResponseEntity.ok()
@@ -33,6 +35,7 @@ public class MediaController {
                         .build());
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping()
     ResponseEntity<ResponseDetails> save(@RequestBody MultipartFile file) throws IOException {
         Media media = mediaService.save(file);
@@ -43,6 +46,7 @@ public class MediaController {
         return ResponseEntity.created(location).build();
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     ResponseEntity<ResponseDetails> delete(@PathVariable Long id) {
         mediaService.delete(id);
@@ -53,6 +57,7 @@ public class MediaController {
                         .build());
     }
 
+    @Secured("ROLE_ADMIN")
     @GetMapping("/count")
     ResponseEntity<ResponseDetails> count() {
         Map<String, Long> dataResponse = new HashMap<>();
