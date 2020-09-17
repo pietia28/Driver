@@ -1,6 +1,7 @@
 package pl.pg.driver.advice.dto;
 
 import pl.pg.driver.advice.Advice;
+import pl.pg.driver.media.dto.MediaDtoMapper;
 import pl.pg.driver.tag.dto.TagDtoMapper;
 import pl.pg.driver.workout.dto.WorkoutDtoMapper;
 import java.util.Objects;
@@ -21,7 +22,8 @@ public class AdviceDtoMapper {
                 .title(advice.getTitle())
                 .media(
                         Optional.ofNullable(advice.getMedia())
-                        .orElse(null)
+                                .map(MediaDtoMapper::entityToDtoOnlyId)
+                                .orElse(null)
                 )
                 .workout(
                         Optional.ofNullable(advice.getWorkout())
@@ -49,7 +51,8 @@ public class AdviceDtoMapper {
                         .collect(Collectors.toList()))
                 .media(
                         Optional.ofNullable(advice.getMedia())
-                        .orElse(null)
+                                .map(MediaDtoMapper::entityToDtoOnlyId)
+                                .orElse(null)
                 )
                 .build();
     }

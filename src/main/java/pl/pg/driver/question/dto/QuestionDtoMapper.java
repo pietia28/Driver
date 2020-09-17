@@ -1,5 +1,6 @@
 package pl.pg.driver.question.dto;
 
+import pl.pg.driver.media.dto.MediaDtoMapper;
 import pl.pg.driver.question.Question;
 import pl.pg.driver.workout.dto.WorkoutDtoMapper;
 import java.util.Optional;
@@ -15,6 +16,11 @@ public class QuestionDtoMapper {
                 .workout(
                         Optional.ofNullable(question.getWorkout())
                         .map(WorkoutDtoMapper::entityToDtoShow)
+                        .orElse(null)
+                )
+                .media(
+                        Optional.ofNullable(question.getMedia())
+                        .map(MediaDtoMapper::entityToDtoOnlyId)
                         .orElse(null)
                 )
                 .build();

@@ -3,6 +3,7 @@ package pl.pg.driver.advice.dto;
 import lombok.Builder;
 import lombok.Value;
 import pl.pg.driver.media.Media;
+import pl.pg.driver.media.dto.MediaOnlyIdDto;
 import pl.pg.driver.tag.dto.TagDto;
 import java.util.List;
 
@@ -23,5 +24,5 @@ public class AdviceDtoNoLoggedUser {
 
     List<TagDto> tags;
 
-    Media media;
+    MediaOnlyIdDto media;
 }

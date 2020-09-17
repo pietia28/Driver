@@ -3,6 +3,8 @@ package pl.pg.driver.question.dto;
 import lombok.Builder;
 import lombok.Value;
 import pl.pg.driver.maessage.MessageContent;
+import pl.pg.driver.media.Media;
+import pl.pg.driver.media.dto.MediaOnlyIdDto;
 import pl.pg.driver.workout.dto.WorkoutDto;
 
 import javax.validation.constraints.NotBlank;
@@ -18,4 +20,6 @@ public class QuestionDto {
     String contents;
 
     WorkoutDto workout;
+
+    MediaOnlyIdDto media;
 }

@@ -3,6 +3,7 @@ package pl.pg.driver.question;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import pl.pg.driver.media.Media;
 import pl.pg.driver.workout.Workout;
 
 import javax.persistence.*;
@@ -23,6 +24,10 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "workout_id")
     Workout workout;
+
+    @ManyToOne
+    @JoinColumn(name = "media_id")
+    Media media;
 
     public Question() {
         //JPA Only
