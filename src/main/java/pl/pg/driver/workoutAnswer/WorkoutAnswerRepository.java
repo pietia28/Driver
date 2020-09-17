@@ -10,5 +10,5 @@ public interface WorkoutAnswerRepository extends JpaRepository<WorkoutAnswer,Lon
     List<WorkoutAnswer> findWorkoutAnswersByQuestionId(Long id);
 
     @Query("select w from WorkoutAnswer w where w.question.id =:questionId and w.id =:answerId")
-    Optional<WorkoutAnswer> findWorkoutAnswerByQuestionIdAAndAnswerId(Long questionId, Long answerId);
+    Optional<WorkoutAnswer> findWorkoutAnswerByQuestionIdAndAnswerId(Long questionId, Long answerId);
 }

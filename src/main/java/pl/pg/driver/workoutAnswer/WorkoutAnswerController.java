@@ -99,11 +99,12 @@ public class WorkoutAnswerController {
     }
 
     @PostMapping("/answers")
-    ResponseEntity<ResponseDetails> answers(@RequestBody WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
+    ResponseEntity<ResponseDetails> answers(
+            @RequestBody WorkoutAnswerHandlerDto workoutAnswerHandlerDto, HttpServletRequest request) {
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .message((workoutAnswerService.answers(workoutAnswerHandlerDto)
+                        .message((workoutAnswerService.answers(request, workoutAnswerHandlerDto)
                                 ? MessageContent.EXAM_PASSED : MessageContent.EXAM_NOT_PASSED))
                 .build());
     }

@@ -60,7 +60,7 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    UserDto findById(Long id, HttpServletRequest request){
+    public UserDto findById(Long id, HttpServletRequest request){
         User user = userRepostory.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException(MessageContent.USER_NOT_FOUND + id));
 
@@ -73,7 +73,7 @@ public class UserService {
         return UserDtoMapper.entityToDtoShow(user);
     }
 
-    User update(UserDto userDto, HttpServletRequest request) {
+    public User update(UserDto userDto, HttpServletRequest request) {
         Claims claims = getJWTClaimsFromHttpRequest(request);
         List<String> authorities = (List) claims.get("authorities");
         if (!claims.getSubject().equals(String.valueOf(userDto.getId())) && authorities.get(0).equals(UserRole.ROLE_USER.toString())) {

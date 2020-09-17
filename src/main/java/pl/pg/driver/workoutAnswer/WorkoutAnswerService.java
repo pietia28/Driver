@@ -12,6 +12,7 @@ import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerShowDto;
 import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDtoMapper;
 import pl.pg.driver.workoutAnswer.dto.WorkoutAnswerDto;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -61,7 +62,7 @@ public class WorkoutAnswerService {
         return workoutAnswerRepository.count();
     }
 
-    boolean answers(WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
-        return workoutHandler.checkExam(workoutAnswerHandlerDto);
+    boolean answers(HttpServletRequest request, WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
+        return workoutHandler.checkExam(request, workoutAnswerHandlerDto);
     }
 }

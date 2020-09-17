@@ -43,11 +43,6 @@ public class DriverApplication {
     }
 
     @Bean
-    WorkoutHandler workoutHandler() {
-        return new WorkoutHandler();
-    }
-
-    @Bean
     CommandLineRunner uUser(UserRepostory userRepostory) {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         User user = User.builder()
