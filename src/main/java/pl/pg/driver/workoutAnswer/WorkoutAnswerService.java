@@ -62,7 +62,7 @@ public class WorkoutAnswerService {
         return workoutAnswerRepository.count();
     }
 
-    boolean answers(HttpServletRequest request, WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
-        return workoutHandler.checkExam(request, workoutAnswerHandlerDto);
+    int answers(HttpServletRequest request, WorkoutAnswerHandlerDto workoutAnswerHandlerDto) {
+        return workoutHandler.getWorkoutsScore(request, workoutAnswerHandlerDto);
     }
 }

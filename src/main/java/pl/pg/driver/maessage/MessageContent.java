@@ -66,4 +66,5 @@ public class MessageContent {
     /*---------------- Exam --------------------------*/
     public static final String EXAM_PASSED = "Exam passed";
     public static final String EXAM_NOT_PASSED = "Exam not passed";
+    public static final String EXAM_SCORE = "Score";
 }

@@ -94,7 +94,10 @@ public class UserService {
 
     User save(UserCreateDto userCreateDto) {
         userCreateDto.setPassword(passwordEncoder.encode(userCreateDto.getPassword()));
-        return userRepostory.save(UserDtoMapper.dtoToEntityCreate(userCreateDto));
+        User user = UserDtoMapper.dtoToEntityCreate(userCreateDto);
+        user.setWorkoutsPoints(0);
+
+        return userRepostory.save(user);
     }
 
     Long count() {

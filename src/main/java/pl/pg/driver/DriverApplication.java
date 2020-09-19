@@ -17,11 +17,17 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import pl.pg.driver.advice.Advice;
 import pl.pg.driver.advice.AdviceRepository;
+import pl.pg.driver.question.Question;
+import pl.pg.driver.question.QuestionRepository;
 import pl.pg.driver.security.JWTAuthorizationFilter;
 import pl.pg.driver.tag.Tag;
 import pl.pg.driver.tag.TagRepository;
 import pl.pg.driver.user.User;
 import pl.pg.driver.user.UserRepostory;
+import pl.pg.driver.workout.Workout;
+import pl.pg.driver.workout.WorkoutRepository;
+import pl.pg.driver.workoutAnswer.WorkoutAnswer;
+import pl.pg.driver.workoutAnswer.WorkoutAnswerRepository;
 import pl.pg.driver.workoutAnswer.WorkoutHandler;
 
 import java.util.ArrayList;
@@ -94,6 +100,77 @@ public class DriverApplication {
                         .tipOfTheWeek((byte) 0)
                         .build()
         ));
+    }
+
+    @Bean
+    CommandLineRunner uWorkout(
+            WorkoutRepository workoutRepository, QuestionRepository questionRepository,
+            WorkoutAnswerRepository workoutAnswerRepository) {
+        Workout workout = Workout.builder()
+                .score(20)
+                .title("Trening 1")
+                .build();
+        workoutRepository.save(workout);
+
+        Question q1 = Question.builder()
+                .workout(workout)
+                .contents("p1")
+                .build();
+        questionRepository.save(q1);
+
+        Question q2 = Question.builder()
+                .workout(workout)
+                .contents("p2")
+                .build();
+        questionRepository.save(q2);
+
+        Question q3 = Question.builder()
+                .workout(workout)
+                .contents("p3")
+                .build();
+        questionRepository.save(q3);
+
+        WorkoutAnswer w1 = WorkoutAnswer.builder()
+                .question(q1)
+                .isCorrect(true)
+                .answer("o1")
+                .build();
+        workoutAnswerRepository.save(w1);
+
+        WorkoutAnswer w2 = WorkoutAnswer.builder()
+                .question(q1)
+                .isCorrect(false)
+                .answer("o2")
+                .build();
+        workoutAnswerRepository.save(w2);
+
+        WorkoutAnswer w3 = WorkoutAnswer.builder()
+                .question(q2)
+                .isCorrect(true)
+                .answer("o1")
+                .build();
+        workoutAnswerRepository.save(w3);
+
+        WorkoutAnswer w4 = WorkoutAnswer.builder()
+                .question(q2)
+                .isCorrect(false)
+                .answer("o2")
+                .build();
+        workoutAnswerRepository.save(w4);
+
+        WorkoutAnswer w5 = WorkoutAnswer.builder()
+                .question(q3)
+                .isCorrect(true)
+                .answer("o1")
+                .build();
+        workoutAnswerRepository.save(w5);
+
+        WorkoutAnswer w6 = WorkoutAnswer.builder()
+                .question(q3)
+                .isCorrect(false)
+                .answer("o2")
+                .build();
+        return args -> workoutAnswerRepository.save(w6);
     }
 
     @RequiredArgsConstructor

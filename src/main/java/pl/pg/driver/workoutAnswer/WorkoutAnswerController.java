@@ -91,6 +91,7 @@ public class WorkoutAnswerController {
     ResponseEntity<ResponseDetails> count() {
         Map<String, Long> dataResponse = new HashMap<>();
         dataResponse.put(MessageContent.ITEMS, workoutAnswerService.count());
+
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
@@ -101,11 +102,15 @@ public class WorkoutAnswerController {
     @PostMapping("/answers")
     ResponseEntity<ResponseDetails> answers(
             @RequestBody WorkoutAnswerHandlerDto workoutAnswerHandlerDto, HttpServletRequest request) {
+        Map<String, Integer> dataResponse = new HashMap<>();
+        int score = workoutAnswerService.answers(request, workoutAnswerHandlerDto);
+        dataResponse.put(MessageContent.EXAM_SCORE, score);
+
         return ResponseEntity.ok()
                 .body(ResponseDetails.builder()
                         .status(MessageContent.OK)
-                        .message((workoutAnswerService.answers(request, workoutAnswerHandlerDto)
-                                ? MessageContent.EXAM_PASSED : MessageContent.EXAM_NOT_PASSED))
-                .build());
+                        .message((score != 0 ? MessageContent.EXAM_PASSED : MessageContent.EXAM_NOT_PASSED))
+                        .data(dataResponse)
+                        .build());
     }
 }
